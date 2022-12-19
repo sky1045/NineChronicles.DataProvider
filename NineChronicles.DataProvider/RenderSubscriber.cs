@@ -2115,6 +2115,33 @@ namespace NineChronicles.DataProvider
                     }
                 });
 
+            _actionRenderer.EveryRender<UpdateSell>()
+                .Subscribe(ev =>
+                {
+                    try
+                    {
+                        if (ev.Exception is null && ev.Action is { } updateSell)
+                        {
+                            foreach (var info in updateSell.updateSellInfos)
+                            {
+                                var model = new UpdateSellModel()
+                                {
+                                    UpdateSellOrderId = Convert.ToInt32(info.updateSellOrderId),
+                                    BlockIndex = ev.BlockIndex,
+                                    SellerAvatarAddress = updateSell.sellerAvatarAddress.ToString(),
+                                    Price = Convert.ToDecimal(info.price),
+                                    Count = info.count,
+                                };
+                                MySqlStore.StoreUpdateSell(model);
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error("RenderSubscriber: {message}", e.Message);
+                    }
+                });
+
             _actionRenderer.EveryUnrender<ActionBase>()
                 .Subscribe(
                     ev =>

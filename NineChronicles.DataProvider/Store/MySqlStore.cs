@@ -1623,6 +1623,30 @@ namespace NineChronicles.DataProvider.Store
             }
         }
 
+        public void StoreUpdateSell(UpdateSellModel model)
+        {
+            using NineChroniclesContext ctx = _dbContextFactory.CreateDbContext();
+            UpdateSellModel? prevModel =
+                ctx.UpdateSell.FirstOrDefault(r => r.UpdateSellOrderId == model.UpdateSellOrderId);
+
+            if (prevModel is null)
+            {
+                ctx.UpdateSell.Add(model);
+            }
+            else
+            {
+                prevModel.UpdateSellOrderId = model.UpdateSellOrderId;
+                prevModel.BlockIndex = model.BlockIndex;
+                prevModel.SellerAvatarAddress = model.SellerAvatarAddress;
+                prevModel.Price = model.Price;
+                prevModel.Count = model.Count;
+                prevModel.Date = model.Date;
+                prevModel.TimeStamp = model.TimeStamp;
+            }
+
+            ctx.SaveChanges();
+        }
+
         public List<RaiderModel> GetRaiderList()
         {
             using NineChroniclesContext ctx = _dbContextFactory.CreateDbContext();
