@@ -6,7 +6,7 @@ namespace NineChronicles.DataProvider.Store.Models
     public class UpdateSellModel
     {
         [Key]
-        public int? UpdateSellOrderId { get; set; }
+        public string? UpdateSellOrderId { get; set; }
 
         public long BlockIndex { get; set; }
 

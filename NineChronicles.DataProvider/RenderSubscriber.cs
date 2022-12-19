@@ -2126,10 +2126,10 @@ namespace NineChronicles.DataProvider
                             {
                                 var model = new UpdateSellModel()
                                 {
-                                    UpdateSellOrderId = Convert.ToInt32(info.updateSellOrderId),
+                                    UpdateSellOrderId = info.updateSellOrderId.ToString(),
                                     BlockIndex = ev.BlockIndex,
                                     SellerAvatarAddress = updateSell.sellerAvatarAddress.ToString(),
-                                    Price = Convert.ToDecimal(info.price),
+                                    Price = decimal.Parse(info.price.ToString().Split(" ").FirstOrDefault()!),
                                     Count = info.count,
                                 };
                                 MySqlStore.StoreUpdateSell(model);
